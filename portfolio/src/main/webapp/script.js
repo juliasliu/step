@@ -17,11 +17,10 @@
  */
 function addRandomGreeting() {
   const greetings =
-      ['Hello world!', '¡Hola Mundo!', '你好，世界！', 'Bonjour le monde!'];
+      ["Life is like a box of chocolates. You never know what you're gonna get. - Forrest Gump", 'Plata o plumo. - Narcos', "Mirror mirror on the wall, who's the fairest of 'em all? - Snow White", "Keep your friends close, but your enemies closer. - The GodFather"];
 
   // Pick a random greeting.
-  //const greeting = greetings[Math.floor(Math.random() * greetings.length)];
-  const greeting = "Life is like a box of chocolates. You never know what you're gonna get."
+  const greeting = greetings[Math.floor(Math.random() * greetings.length)];
 
   // Add it to the page.
   const greetingContainer = document.getElementById('greeting-container');
