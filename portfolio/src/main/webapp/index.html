@@ -7,12 +7,84 @@
     <script src="script.js"></script>
   </head>
   <body>
-    <div id="content">
-      <h1>My Portfolio</h1>
-      <p>This is my portfolio.</p>
-      <p>Click here to get a random message:</p>
-      <button onclick="addRandomGreeting()">Hello</button>
-      <div id="greeting-container"></div>
+    <img class="background" />
+    <div class="content-container">
+        <div class="main transparent content">
+            <h1 class="title">Hello! Welcome to me!!</h1>
+            <h2>My name is Julia Liu.</h2>
+        </div>
+        <div class="flex content">
+        <div class="content-left">
+            <h3>A couple paragraphs about me:</h3>
+            <p>Hi!! I'm Julia and I'm your resident Bay Area tech trash bro. Just kidding.
+                But I did grow up primarily in Cupertino for more than half of my life 
+                so I've undoubtedly been influenced by the ever-changing technology trends born 
+                from the heart of the Silicon Valley and have used pretty much any consumer-facing tech product out there. 
+            </p>
+            <p>
+                I don't know if I'd call myself a code junkie (following my earlier reference to being a tech trash; I also think I'm just a professional copy-paster),
+                but I'm constantly learning more languages and tech stacks and challenging myself as well through the courses
+                I take at UC Berkeley. In high school, I built and maintained websites for some of the clubs I was in
+                and continued my passion for web design & dev in college, where I joined the course staff for a Web Design Decal
+                at Berkeley. During breaks, such as winter or summer, I try to lose myself in a few personal projects as well, 
+                as listed below.
+            </p>
+            <p>
+                I also love travelling and vlogging (check out my Youtube channel!), exploring beautiful places
+                and eating delish foods. I sometimes play video games in my free time and I also like urban dance. 
+                If I'm not doing any of the above, you'll probably see me drinking boba milk tea and/or working out,
+                but obviously not at the same time.
+            </p>
+        </div>
+        <div class="content-right">
+            <img src="/images/julia.jpg" />
+            <p class="caption">Here is a picture of me in front of some pretty roses back when I got sunshine on a regular basis.
+                Also, the background image I used is a stock photo of Amsterdam. For the aesthetics.
+            </p>
+        </div>
+        </div>
+        <div class="content">
+            <h3>A list of projects I've worked on:</h3>
+            <ol>
+                <li>
+                    <p><strong>Kwizu</strong><br />
+                    <i>React, React Native, Ruby on Rails, Heroku (old host), AWS (new)</i><br />
+                    Kwizu is an app I started about 2 weeks ago that is based on an old app I created that used to 
+                    be called "Kindred," but I am building the React Native mobile app as well as the server code from scratch.
+                    If you've ever heard of Buzzfeed quizzes before, Kwizu is basically a better version of that where users
+                    can take fun personality and trivia quizzes, store their responses, and compare their results with friends.
+                    </p>
+                </li>
+                <li>
+                    <p><strong>Dreamemo</strong><br />
+                    <i>HTML, CSS, MEAN (JS), Ionic SDK, AWS</i><br />
+                    This was the first ever iOS and mobile app that I ever published. I released the first version of the app 
+                    on the App Store in high school and made just a few more iterations on it. I'm thinking of getting back to 
+                    revisiting and updating it to a newer version once I've released Kwizu. Dreamemo is a mobile app that doubles as 
+                    both a dream journal and personal motivation and meditation tool.</p>
+                </li>
+                <li>
+                    <p><strong>Verze</strong><br />
+                    <i>HTML, CSS, MEAN (JS), Ionic SDK, AWS</i><br />
+                    Shortly after I released Dreamemo, I poured my heart and soul into another mobile app, this time on a much 
+                    bigger scale. After over a year or working on it in between schoolwork, I released it at the beginning of my senior year, 
+                    and later also made a web version of it as well. Unfortunately, the code base is really hefty and hard to maintain, but in the future 
+                    I definitely want to go back and revise it. Verze is a foreign language-learning app that relies on interactive, multi-sensory cards with 
+                    fun exercises. Unlike other language apps, Verze focuses more on the user-creation side, where users can also help teach others languages 
+                    by generating their own cards, decks, and courses.</p>
+                </li>
+            </ol>
+        </div>
+        <div class="transparent content">
+            <h3>Links to my profiles:</h3>
+            <ul>
+                <li><a href="https://www.linkedin.com/in/juliasliu/">LinkedIn</a></li>
+                <li><a href="https://github.com/juliasliu">Github</a></li>
+            </ul>
+            <p><i>Alternatively, you can check out my actual portfolio website at <a href="http://juliasliu.com/">www.juliasliu.com</a></i>.</p>
+                <button onclick="addRandomGreeting()">Click Me</button>
+            <div id="greeting-container"></div>
+        </div>
     </div>
   </body>
 </html>
