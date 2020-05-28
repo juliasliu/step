@@ -31,8 +31,15 @@ function getComments() {
 }
 
 /** Creates an <li> element containing text. */
-function createListElement(text) {
+function createListElement(comment) {
   const liElement = document.createElement('li');
-  liElement.innerText = text;
+  const commentElement = document.createElement('span');
+  commentElement.classList.add("comment")
+  commentElement.innerText = comment.content;
+  const authorElement = document.createElement('span');
+  authorElement.classList.add("author")
+  authorElement.innerText = comment.name;
+  liElement.appendChild(commentElement);
+  liElement.appendChild(authorElement);
   return liElement;
 }
