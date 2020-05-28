@@ -26,3 +26,27 @@ function addRandomGreeting() {
   const greetingContainer = document.getElementById('greeting-container');
   greetingContainer.innerText = greeting;
 }
+
+/*
+ * Fetches JSON string from the server and adds it to HTML
+ */
+function getMessages() {
+  fetch('/data').then(response => response.json()).then((messages) => {
+    // stats is an object, not a string, so we have to
+    // reference its fields to create HTML content
+
+    // console.log(messages)
+    const messagesListElement = document.getElementById('greeting-container');
+    messagesListElement.innerHTML = '';
+    for (var i = 0; i < messages.length; i++) {
+        messagesListElement.appendChild(createListElement(messages[i]));
+    }
+  });
+}
+
+/** Creates an <li> element containing text. */
+function createListElement(text) {
+  const liElement = document.createElement('li');
+  liElement.innerText = text;
+  return liElement;
+}
