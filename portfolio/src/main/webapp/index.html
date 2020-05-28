@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
   </head>
-  <body>
+  <body onload="getComments()">
     <img class="background" />
     <div class="content-container">
         <div class="main transparent content">
@@ -81,8 +81,22 @@
                 <li><a href="https://github.com/juliasliu">Github</a></li>
             </ul>
             <p><i>Alternatively, you can check out my actual portfolio website at <a href="http://julialiu.com/">www.julialiu.com</a></i>.</p>
-            <button onclick="getMessages()">Click me to get messages!</button>
-            <ul id="greeting-container"></ul>
+        </div>
+        <div class="content">
+            <h3>Comments:</h3>
+            <ul id="comments-container"></ul>
+            <form action="/data" method="POST">
+
+            <p><strong>Leave your comment below:</strong></p>
+            <p>What's your name?</p>
+            <input type="text" name="name" placeholder="Your name here" />
+            <br/>
+            <p>What do you want to tell me?</p>
+            <textarea name="comment" placeholder="Your comment here"></textarea>
+            <br/><br/>
+
+            <input type="submit" />
+            </form>
         </div>
     </div>
   </body>

@@ -12,35 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/**
- * Adds a random greeting to the page.
- */
-function addRandomGreeting() {
-  const greetings =
-      ["Life is like a box of chocolates. You never know what you're gonna get. - Forrest Gump", 'Plata o plumo. - Narcos', "Mirror mirror on the wall, who's the fairest of 'em all? - Snow White", "Keep your friends close, but your enemies closer. - The GodFather"];
-
-  // Pick a random greeting.
-  const greeting = greetings[Math.floor(Math.random() * greetings.length)];
-
-  // Add it to the page.
-  const greetingContainer = document.getElementById('greeting-container');
-  greetingContainer.innerText = greeting;
-}
-
 /*
  * Fetches JSON string from the server and adds it to HTML
  */
-function getMessages() {
-  fetch('/data').then(response => response.json()).then((messages) => {
+function getComments() {
+  fetch('/data').then(response => response.json()).then((comments) => {
     // stats is an object, not a string, so we have to
     // reference its fields to create HTML content
 
-    // console.log(messages)
-    const messagesListElement = document.getElementById('greeting-container');
-    messagesListElement.innerHTML = '';
-    for (var i = 0; i < messages.length; i++) {
-        messagesListElement.appendChild(createListElement(messages[i]));
+    console.log(comments)
+    const commentsListElement = document.getElementById('comments-container');
+    commentsListElement.innerHTML = '';
+    for (var i = 0; i < comments.length; i++) {
+        commentsListElement.appendChild(createListElement(comments[i]));
     }
+    if (comments.length == 0) commentsListElement.innerHTML = 'No comments posted yet.';
   });
 }
 

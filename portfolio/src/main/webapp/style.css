@@ -28,7 +28,7 @@ html, body {
   margin: 100px auto;
   width: 75%;
   padding: 50px;
-  background: white;
+  background: rgba(255, 255, 255, 0.75);
   color: black;
   z-index: 100;
 }
@@ -73,6 +73,7 @@ html, body {
 
 .content-right {
     width: 33.333%;
+    text-align: center;
 }
 
 img {
@@ -84,6 +85,18 @@ img {
 }
 
 .caption {
-    color: #888;
+    color: darkolivegreen;
     font-style: italic;
+    margin: 20px;
+}
+
+#comments-container {
+    list-style: none;
+    padding-inline-start: 0;
+}
+
+#comments-container li {
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.25);
+    margin-bottom: 10px;
 }
