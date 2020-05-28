@@ -1,9 +1,89 @@
-#content {
-  margin-left: auto;
-  margin-right: auto;
-  width: 650px;
+html, body {
+    font-family: 'Calibri', sans-serif;
+    height: 100%;
+}
+
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 0;
+    border-radius: 0;
+    margin: 0;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.5)), 
+        url("https://img.pngio.com/dark-nature-wallpaper-desktop-dark-green-aesthetic-hd-aesthetic-nature-background-png-1920_1080.png");
+    background-size: cover;
+    object-fit: none;
+}
+
+.content-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.content {
+  margin: 100px auto;
+  width: 75%;
+  padding: 50px;
+  background: white;
+  color: black;
+  z-index: 100;
+}
+
+.content.main {
+    padding: 15% 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.transparent {
+    background: none;
+    color: white;
+}
+
+.transparent a {
+    color: aliceblue;
+}
+
+.flex {
+  display: flex;
+  flex-direction: row;
 }
 
 #greeting-container {
   margin-top: 20px;
+}
+
+.title {
+    font-size: 3em;
+}
+
+.content-left, .content-right {
+    padding: 20px;
+}
+
+.content-left {
+    width: 66.666%
+}
+
+.content-right {
+    width: 33.333%;
+}
+
+img {
+    border-radius: 50%;
+    margin: 20px;
+    height: 300px;
+    width: 300px;
+    object-fit: cover;
+}
+
+.caption {
+    color: #888;
+    font-style: italic;
 }
