@@ -26,6 +26,7 @@ function getComments() {
     for (var i = 0; i < comments.length; i++) {
         commentsListElement.appendChild(createListElement(comments[i]));
     }
+    if (comments.length == 0) commentsListElement.innerHTML = 'No comments posted yet.';
   });
 }
 
