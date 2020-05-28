@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
   </head>
-  <body onload="getComments()">
+  <body onload="getComments(0)">
     <img class="background" />
     <div class="content-container">
         <div class="main transparent content">
@@ -84,6 +84,14 @@
         </div>
         <div class="content">
             <h3>Comments:</h3>
+            <label for="num-comments">Display number of comments:</label>
+            <select name="num-comments" id="num-comments" onchange="setNumComments(this)">
+                <option value="1">1</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="0" selected>all</option>
+            </select>
+
             <ul id="comments-container"></ul>
             <form action="/data" method="POST">
 

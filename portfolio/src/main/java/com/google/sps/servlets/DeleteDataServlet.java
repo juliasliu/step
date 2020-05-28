@@ -30,7 +30,7 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 import java.util.*;
 
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
-@WebServlet("/data")
+@WebServlet("/delete-data")
 public class DataServlet extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
@@ -54,6 +54,9 @@ public class DataServlet extends HttpServlet {
 
     PreparedQuery results = datastore.prepare(query);
 
+    // if the parameter is 0, then show all comments
+    Integer numComments = Integer.parseInt(request.getParameter("numcomments"));
+
     List<Comment> comments = new ArrayList<Comment>();
     for (Entity entity : results.asIterable()) {
       long id = entity.getKey().getId();
@@ -65,8 +68,7 @@ public class DataServlet extends HttpServlet {
       comments.add(comment);
     }
 
-    // if the parameter is 0, then show all comments
-    Integer numComments = Integer.parseInt(request.getParameter("numcomments"));
+    // determine whether to show all comments or limit the number of comments
     if (numComments > 0 && numComments < comments.size()) comments = comments.subList(0, numComments);
 
     Gson gson = new Gson();
