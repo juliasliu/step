@@ -100,3 +100,17 @@ img {
     background: rgba(255, 255, 255, 0.25);
     margin-bottom: 10px;
 }
+
+#comments-container li .comment:before,
+#comments-container li .comment:after {
+    content: '"'
+}
+
+#comments-container li .author {
+    color: darkolivegreen;
+    font-style: italic;
+}
+
+#comments-container li .author:before {
+    content: ' - '
+}
