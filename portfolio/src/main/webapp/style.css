@@ -13,7 +13,7 @@ html, body {
     border-radius: 0;
     margin: 0;
     background-image: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.5)), 
-        url("https://img.pngio.com/dark-nature-wallpaper-desktop-dark-green-aesthetic-hd-aesthetic-nature-background-png-1920_1080.png");
+        url("images/wallpaper.png");
     background-size: cover;
     object-fit: none;
 }
