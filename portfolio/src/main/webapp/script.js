@@ -15,19 +15,36 @@
 /*
  * Fetches JSON string from the server and adds it to HTML
  */
-function getComments() {
-  fetch('/data').then(response => response.json()).then((comments) => {
-    // stats is an object, not a string, so we have to
-    // reference its fields to create HTML content
+function getComments(numComments) {
+    console.log(numComments);
+    fetch('/data?numcomments=' + numComments).then(response => response.json()).then((comments) => {
+        // stats is an object, not a string, so we have to
+        // reference its fields to create HTML content
 
-    console.log(comments)
-    const commentsListElement = document.getElementById('comments-container');
-    commentsListElement.innerHTML = '';
-    for (var i = 0; i < comments.length; i++) {
-        commentsListElement.appendChild(createListElement(comments[i]));
+        console.log(comments)
+        const commentsListElement = document.getElementById('comments-container');
+        commentsListElement.innerHTML = '';
+        for (var i = 0; i < comments.length; i++) {
+            commentsListElement.appendChild(createListElement(comments[i]));
+        }
+        if (comments.length == 0) commentsListElement.innerHTML = 'No comments posted yet.';
+    });
+}
+
+/** Sets the number of comments that should be displayed, called from the select input form */
+function setNumComments(selectThis) {
+    getComments(selectThis.value);
+}
+
+/*
+ * Deletes all comments on the datastore and returns an empty response
+ */
+async function deleteComments() {
+    const response = await fetch('/delete-data', {method: 'POST'});
+    const empty = await response.json();
+    if (response.status == 200) {
+        getComments(0);
     }
-    if (comments.length == 0) commentsListElement.innerHTML = 'No comments posted yet.';
-  });
 }
 
 /** Creates an <li> element containing text. */

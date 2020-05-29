@@ -64,7 +64,10 @@ public class DataServlet extends HttpServlet {
       Comment comment = new Comment(id, content, name, timestamp);
       comments.add(comment);
     }
-    
+
+    // if the parameter is 0, then show all comments
+    Integer numComments = Integer.parseInt(request.getParameter("numcomments"));
+    if (numComments > 0 && numComments < comments.size()) comments = comments.subList(0, numComments);
 
     Gson gson = new Gson();
     String json = gson.toJson(comments);
