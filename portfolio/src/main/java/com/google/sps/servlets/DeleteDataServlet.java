@@ -27,85 +27,29 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.datastore.Key;
 import java.util.*;
 
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/delete-data")
-public class DataServlet extends HttpServlet {
+public class DeleteDataServlet extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
-    private class Comment {
-        long id;
-        String content;
-        String name;
-        long timestamp;
-
-        public Comment(long id, String content, String name, long timestamp) {
-            this.id = id;
-            this.content = content;
-            this.name = name;
-            this.timestamp = timestamp;
-        }
-    }
-
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    // Get all the comments from the datastore
     Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
 
     PreparedQuery results = datastore.prepare(query);
 
-    // if the parameter is 0, then show all comments
-    Integer numComments = Integer.parseInt(request.getParameter("numcomments"));
-
-    List<Comment> comments = new ArrayList<Comment>();
+    // Delete all the entities in batch
     for (Entity entity : results.asIterable()) {
-      long id = entity.getKey().getId();
-      String content = (String) entity.getProperty("content");
-      String name = (String) entity.getProperty("name");
-      long timestamp = (long) entity.getProperty("timestamp");
-
-      Comment comment = new Comment(id, content, name, timestamp);
-      comments.add(comment);
-    }
-
-    // determine whether to show all comments or limit the number of comments
-    if (numComments > 0 && numComments < comments.size()) comments = comments.subList(0, numComments);
-
-    Gson gson = new Gson();
-    String json = gson.toJson(comments);
+        Key key = entity.getKey();
+        datastore.delete(key);
+    };
 
     // Send the JSON as the response
     response.setContentType("application/json;");
-    response.getWriter().println(json);
-  }
-
-  @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Get the input from the form.
-    String name = getParameter(request, "name", "");
-    String content = getParameter(request, "content", "");
-    long timestamp = System.currentTimeMillis();
-
-    Entity taskEntity = new Entity("Comment");
-    taskEntity.setProperty("content", content);
-    taskEntity.setProperty("name", name);
-    taskEntity.setProperty("timestamp", timestamp);
-
-    datastore.put(taskEntity);
-
-    // Redirect to the main page
-    response.sendRedirect("/");
-  }
-
-  /**
-   * @return the request parameter, or the default value if the parameter
-   *         was not specified by the client
-   */
-  private String getParameter(HttpServletRequest request, String name, String defaultValue) {
-    String value = request.getParameter(name);
-    if (value == null) {
-      return defaultValue;
-    }
-    return value;
+    response.getWriter().println(new Gson().toJson(""));
   }
 }

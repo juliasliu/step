@@ -36,6 +36,17 @@ function setNumComments(selectThis) {
     getComments(selectThis.value);
 }
 
+/*
+ * Deletes all comments on the datastore and returns an empty response
+ */
+async function deleteComments() {
+    const response = await fetch('/delete-data', {method: 'POST'});
+    const empty = await response.json();
+    if (response.status == 200) {
+        getComments(0);
+    }
+}
+
 /** Creates an <li> element containing text. */
 function createListElement(comment) {
   const liElement = document.createElement('li');
