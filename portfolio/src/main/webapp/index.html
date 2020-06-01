@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <title>My Portfolio</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTYkmfKWcCNvQQAGwztwAoU-wVS8kwIDo"></script>
     <script src="script.js"></script>
   </head>
-  <body onload="getComments(0)">
+  <body onload="onloadHelper()">
     <img class="background" />
     <div class="content-container">
         <div class="main transparent content">
@@ -37,7 +38,7 @@
             </p>
         </div>
         <div class="content-right">
-            <img src="/images/julia.jpg" />
+            <img src="/images/julia.jpg" class="profile-picture" />
             <p class="caption">Here is a picture of me in front of some pretty roses back when I got sunshine on a regular basis.
             </p>
         </div>
@@ -81,6 +82,7 @@
                 <li><a href="https://github.com/juliasliu">Github</a></li>
             </ul>
             <p><i>Alternatively, you can check out my actual portfolio website at <a href="http://julialiu.com/">www.julialiu.com</a></i>.</p>
+            <div id="map"></div>
         </div>
         <div class="content">
             <h3>Comments:</h3>

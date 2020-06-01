@@ -76,7 +76,7 @@ html, body {
     text-align: center;
 }
 
-img {
+.profile-picture {
     border-radius: 50%;
     margin: 20px;
     height: 300px;
@@ -89,6 +89,13 @@ img {
     font-style: italic;
     margin: 20px;
 }
+
+/* MAP */
+#map {
+    height: 500px;
+}
+
+/* COMMENTS */
 
 #comments-container {
     list-style: none;
