@@ -20,7 +20,27 @@ var foundWaldo;
 /** Function is called when the document body loads */
 function onloadHelper() {
     getComments(0);
+    setupLogin();
     createMap();
+}
+
+/** Hide comments form by default; if user logged in, unhide the form. otherwise, display login link */
+function setupLogin() {
+    fetch("/loggedin").then(response => response.json()).then((res) => {
+        console.log(res)
+        const commentsFormElement = document.getElementById("comments-form");
+        const loginMessageElement = document.getElementById("login-message");
+        const loginLinkElement = document.getElementById("login-link");
+        
+        // if the response is exactly true, then the user is logged in
+        // otherwise, the response should be the login url
+        if (res !== true) {
+            commentsFormElement.style.display = "none";
+            loginLinkElement.href = res;
+        } else {
+            loginLinkElement.style.display = "none";
+        }
+    });
 }
 
 /** Creates a map and adds it to the page. */
