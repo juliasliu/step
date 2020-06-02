@@ -20,6 +20,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.appengine.api.users.User;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
+
 import com.google.gson.Gson;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -33,17 +37,20 @@ import java.util.*;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    UserService userService = UserServiceFactory.getUserService();
 
     private class Comment {
         long id;
         String content;
         String name;
+        String email;
         long timestamp;
 
-        public Comment(long id, String content, String name, long timestamp) {
+        public Comment(long id, String content, String name, String email, long timestamp) {
             this.id = id;
             this.content = content;
             this.name = name;
+            this.email = email;
             this.timestamp = timestamp;
         }
     }
@@ -59,9 +66,10 @@ public class DataServlet extends HttpServlet {
       long id = entity.getKey().getId();
       String content = (String) entity.getProperty("content");
       String name = (String) entity.getProperty("name");
+      String email = (String) entity.getProperty("email");
       long timestamp = (long) entity.getProperty("timestamp");
 
-      Comment comment = new Comment(id, content, name, timestamp);
+      Comment comment = new Comment(id, content, name, email, timestamp);
       comments.add(comment);
     }
 
@@ -87,6 +95,7 @@ public class DataServlet extends HttpServlet {
     Entity taskEntity = new Entity("Comment");
     taskEntity.setProperty("content", content);
     taskEntity.setProperty("name", name);
+    taskEntity.setProperty("email", userService.getCurrentUser().getEmail());
     taskEntity.setProperty("timestamp", timestamp);
 
     datastore.put(taskEntity);
