@@ -95,6 +95,14 @@ html, body {
     height: 500px;
 }
 
+#info-window {
+    color: black;
+}
+
+#info-window a {
+    color: blue;
+}
+
 /* COMMENTS */
 
 #comments-container {
