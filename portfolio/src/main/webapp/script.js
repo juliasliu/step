@@ -173,9 +173,9 @@ function mapOnCenterChange(map) {
     // Set the message to "hot" or "cold" based on whether the new distance is smaller than the old
     const hotOrColdMessage = document.getElementById("hot-or-cold");
     if (newDistance < oldDistance) {
-        hotOrColdMessage.innerHTML = "Drag the map to find me. You are getting hotter!";
+        hotOrColdMessage.innerHTML = "You are getting hotter!";
     } else {
-        hotOrColdMessage.innerHTML = "Drag the map to find me. Oh no, you are getting colder!";
+        hotOrColdMessage.innerHTML = "Oh no, you are getting colder!";
     }
 
     // Set global variable mapCenter to the newCenter
