@@ -15,6 +15,7 @@
 /** Global variables */
 var mapCenter;
 var waldoPosition;
+var foundWaldo;
 
 /** Function is called when the document body loads */
 function onloadHelper() {
@@ -118,6 +119,7 @@ function createMap() {
     })
 
     // Create marker on the map
+    foundWaldo = false;
     waldoPosition = new google.maps.LatLng(51.5541, -0.1744);
     var waldoIcon = {
         url: "images/waldo.png", // url
@@ -160,6 +162,9 @@ function createMap() {
 
 /** Displays whether the user is hotter or colder based on where they drag the map to find Waldo */
 function mapOnCenterChange(map) {
+    // If already found Waldo, don't do anything
+    if (foundWaldo) return;
+
     const newCenter = map.getCenter();
     // Calculate the distance between old mapCenter and Waldo and newCenter and Waldo
     const oldDistance = haversine_distance(waldoPosition, mapCenter);
@@ -189,6 +194,7 @@ function markerOnClick(map, marker, infowindow) {
     // Set the message to success
     const hotOrColdMessage = document.getElementById("hot-or-cold");
     hotOrColdMessage.innerHTML = "You found me, congratulations!";
+    foundWaldo = true;
 }
 
 /* Helper function to calculate the Haversine distance between two points of lat-long
