@@ -26,9 +26,18 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import java.util.*;
 
-/** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/loggedin")
 public class UserServlet extends HttpServlet {
+
+    private class UserInfo {
+        boolean loggedIn = false;
+        String url = "";
+
+        public UserInfo(boolean loggedIn, String url) {
+            this.loggedIn = loggedIn;
+            this.url = url;
+        }
+    }
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -36,13 +45,17 @@ public class UserServlet extends HttpServlet {
     response.setContentType("application/json");
     UserService userService = UserServiceFactory.getUserService();
 
+
     if (userService.isUserLoggedIn()) {
-        response.getWriter().println(new Gson().toJson(true));
+        String urlToRedirectToAfterUserLogsOut = "/";
+        String logoutUrl = userService.createLogoutURL(urlToRedirectToAfterUserLogsOut);
+        UserInfo userInfo =  new UserInfo(true, logoutUrl);
+        response.getWriter().println(new Gson().toJson(userInfo));
     } else {
         String urlToRedirectToAfterUserLogsIn = "/";
         String loginUrl = userService.createLoginURL(urlToRedirectToAfterUserLogsIn);
-
-        response.getWriter().println(new Gson().toJson(loginUrl));
+        UserInfo userInfo =  new UserInfo(false, loginUrl);
+        response.getWriter().println(new Gson().toJson(userInfo));
     }
   }
 }

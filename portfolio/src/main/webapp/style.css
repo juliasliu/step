@@ -121,11 +121,9 @@ html, body {
     content: '"'
 }
 
-#comments-container li .author {
-    color: darkolivegreen;
+#comments-container li .nickname,
+#comments-container li .email {
+    color: lightslategray;
     font-style: italic;
-}
-
-#comments-container li .author:before {
-    content: ' - '
+    margin-left: 5px;
 }
