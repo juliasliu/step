@@ -73,10 +73,15 @@ public class NicknameServlet extends HttpServlet {
     PreparedQuery comments = getCommentsFromUser(email);
     for (Entity entity : comments.asIterable()) {
         long commentId = entity.getKey().getId();
+        String content = (String) entity.getProperty("content");
+        long timestamp = (long) entity.getProperty("timestamp");
 
         // update that comment with nickname
         Entity comment = new Entity("Comment", commentId);
+        comment.setProperty("content", content);
         comment.setProperty("nickname", nickname);
+        comment.setProperty("email", email);
+        comment.setProperty("timestamp", timestamp);
         datastore.put(comment);
     }
 

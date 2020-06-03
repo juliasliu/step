@@ -32,16 +32,20 @@ function setupLogin() {
         const nicknameFormElement = document.getElementById("nickname-form");
         const loginMessageElement = document.getElementById("login-message");
         const loginLinkElement = document.getElementById("login-link");
+        const logoutMessageElement = document.getElementById("logout-message");
+        const logoutLinkElement = document.getElementById("logout-link");
         
-        // if the response is exactly true, then the user is logged in
-        if (res === true) {
+        // if the response is true, then the user is logged in
+        if (res.loggedIn == true) {
             loginMessageElement.style.display = "none";
+            logoutLinkElement.href = res.url;
             setupNickname();
         } else {
             // otherwise, the response should be the login url
             commentsFormElement.style.display = "none";
             nicknameFormElement.style.display = "none";
-            loginLinkElement.href = res;
+            logoutMessageElement.style.display = "none";
+            loginLinkElement.href = res.url;
         }
     });
 }
