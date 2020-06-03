@@ -20,7 +20,27 @@ var foundWaldo;
 /** Function is called when the document body loads */
 function onloadHelper() {
     getComments(0);
+    setupLogin();
     createMap();
+}
+
+/** Hide comments form by default; if user logged in, unhide the form. otherwise, display login link */
+function setupLogin() {
+    fetch("/loggedin").then(response => response.json()).then((res) => {
+        console.log(res)
+        const commentsFormElement = document.getElementById("comments-form");
+        const loginMessageElement = document.getElementById("login-message");
+        const loginLinkElement = document.getElementById("login-link");
+        
+        // if the response is exactly true, then the user is logged in
+        // otherwise, the response should be the login url
+        if (res !== true) {
+            commentsFormElement.style.display = "none";
+            loginLinkElement.href = res;
+        } else {
+            loginMessageElement.style.display = "none";
+        }
+    });
 }
 
 /** Creates a map and adds it to the page. */
@@ -250,13 +270,21 @@ async function deleteComments() {
 /** Creates an <li> element containing text. */
 function createListElement(comment) {
   const liElement = document.createElement("li");
-  const commentElement = document.createElement("span");
-  commentElement.classList.add("comment")
-  commentElement.innerText = comment.content;
-  const authorElement = document.createElement("span");
-  authorElement.classList.add("author")
-  authorElement.innerText = comment.name;
-  liElement.appendChild(commentElement);
-  liElement.appendChild(authorElement);
+
+  const contentElement = document.createElement("span");
+  contentElement.classList.add("comment")
+  contentElement.innerText = comment.content;
+
+  const nameElement = document.createElement("span");
+  nameElement.classList.add("author")
+  nameElement.innerText = comment.name;
+
+  const emailElement = document.createElement("span");
+  emailElement.classList.add("email")
+  emailElement.innerText = comment.email;
+
+  liElement.appendChild(contentElement);
+  liElement.appendChild(nameElement);
+  liElement.appendChild(emailElement);
   return liElement;
 }
