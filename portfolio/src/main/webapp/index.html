@@ -105,9 +105,8 @@
 
             <form action="/data" method="POST" id="comments-form">
 
-            <p>What's your name?</p>
-            <input type="text" name="name" placeholder="Your name here" />
-            <br/>
+            <p id="nickname-greeting">Hello <span id="nickname"></span>!</p>
+            <p id="sad-nickname-greeting">Hello stranger! It appears you do not have a nickname. :(</p>
             <p>What do you want to tell me?</p>
             <textarea name="content" placeholder="Your comment here"></textarea>
             <br/><br/>
@@ -118,6 +117,14 @@
             <div id="login-message">
                 <p>Please login to publish a comment: <a href="" id="login-link"><button>Login</button></a></p>
             </div>
+
+            <form method="POST" action="/nickname" id="nickname-form">
+            <p><strong>Set your nickname here:</strong></p>
+            <p>Your nickname will be displayed next to your comment instead of your email.</p>
+            <input name="nickname" placeholder="Your nickname here" id="nickname-input" />
+            <br/><br/>
+            <input type="submit" />
+            </form>
         </div>
     </div>
   </body>

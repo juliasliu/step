@@ -29,18 +29,47 @@ function setupLogin() {
     fetch("/loggedin").then(response => response.json()).then((res) => {
         console.log(res)
         const commentsFormElement = document.getElementById("comments-form");
+        const nicknameFormElement = document.getElementById("nickname-form");
         const loginMessageElement = document.getElementById("login-message");
         const loginLinkElement = document.getElementById("login-link");
         
         // if the response is exactly true, then the user is logged in
-        // otherwise, the response should be the login url
-        if (res !== true) {
-            commentsFormElement.style.display = "none";
-            loginLinkElement.href = res;
-        } else {
+        if (res === true) {
             loginMessageElement.style.display = "none";
+            setupNickname();
+        } else {
+            // otherwise, the response should be the login url
+            commentsFormElement.style.display = "none";
+            nicknameFormElement.style.display = "none";
+            loginLinkElement.href = res;
         }
     });
+}
+
+/* Set the nickname of the user if it exists, show nickname form */
+async function setupNickname() {
+    const nicknameElement = document.getElementById("nickname");
+    const nicknameInputElement = document.getElementById("nickname-input");
+
+    // retrieve nickname from server
+    const response = await fetch("/nickname");
+    const json = await response.json();
+
+    if (response.status == 200) {
+        nicknameElement.innerHTML = json;
+        nicknameInputElement.value = json;
+
+        const nicknameGreetingElement = document.getElementById("nickname-greeting");
+        const sadNicknameGreetingElement = document.getElementById("sad-nickname-greeting");
+        
+        // show the normal greeting message with nickname if nickname exists
+        if (json && json != "") {
+            sadNicknameGreetingElement.style.display = "none";
+        } else {
+            // otherwise, show a sad greeting message with no nickname
+            nicknameGreetingElement.style.display = "none";
+        }
+    }
 }
 
 /** Creates a map and adds it to the page. */
@@ -274,17 +303,21 @@ function createListElement(comment) {
   const contentElement = document.createElement("span");
   contentElement.classList.add("comment")
   contentElement.innerText = comment.content;
-
-  const nameElement = document.createElement("span");
-  nameElement.classList.add("author")
-  nameElement.innerText = comment.name;
-
-  const emailElement = document.createElement("span");
-  emailElement.classList.add("email")
-  emailElement.innerText = comment.email;
-
   liElement.appendChild(contentElement);
-  liElement.appendChild(nameElement);
-  liElement.appendChild(emailElement);
+
+    // show nickname if exists
+    if (comment.nickname != "") {
+        const nicknameElement = document.createElement("span");
+        nicknameElement.classList.add("nickname")
+        nicknameElement.innerText = comment.nickname;
+        liElement.appendChild(nicknameElement);
+    } else {
+        // otherwise, show email
+        const emailElement = document.createElement("span");
+        emailElement.classList.add("email")
+        emailElement.innerText = comment.email;
+        liElement.appendChild(emailElement);
+    }
+
   return liElement;
 }
