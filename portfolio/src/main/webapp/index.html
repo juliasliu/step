@@ -17,7 +17,7 @@
         </div>
         <div class="flex content">
         <div class="content-left">
-            <h3>A couple paragraphs about me:</h3>
+            <h2>A couple paragraphs about me:</h2>
             <p>Hi!! I'm Julia and I'm your resident Bay Area tech trash bro. Just kidding.
                 But I did grow up primarily in Cupertino for more than half of my life 
                 so I've undoubtedly been influenced by the ever-changing technology trends born 
@@ -45,7 +45,7 @@
         </div>
         </div>
         <div class="content">
-            <h3>A list of projects I've worked on:</h3>
+            <h2>A list of projects I've worked on:</h2>
             <ol>
                 <li>
                     <p><strong>Kwizu</strong><br />
@@ -77,15 +77,32 @@
             </ol>
         </div>
         <div class="transparent content">
-            <h3>Links to my profiles:</h3>
+            <h2>Links to my profiles:</h2>
             <ul>
                 <li><a href="https://www.linkedin.com/in/juliasliu/">LinkedIn</a></li>
                 <li><a href="https://github.com/juliasliu">Github</a></li>
             </ul>
             <p><i>Alternatively, you can check out my actual portfolio website at <a href="http://julialiu.com/">www.julialiu.com</a></i>.</p>
         </div>
-        <div class="content">
-            <div id="chart_div"></div>
+        <div class="flex content">
+            <div class="content-right">
+                <h2>Charts</h2>
+                <h3>Vote for your favorite colors</h3>
+                <form action="/charts" method="POST">
+                <select name="color">
+                    <option value="Red">Red</option>
+                    <option value="Orange">Orange</option>
+                    <option value="Yellow">Yellow</option>
+                    <option value="Green">Green</option>
+                    <option value="Blue">Blue</option>
+                    <option value="Violet">Violet</option>
+                </select>
+                <button>Submit</button>
+                </form>
+            </div>
+            <div class="content-left">
+                <div id="chart-div"></div>
+            </div>
         </div>
         <div class="transparent content">
             <h2>Where's Waldo?</h2>
@@ -94,7 +111,7 @@
             <div id="map"></div>
         </div>
         <div class="content">
-            <h3>Comments:</h3>
+            <h2>Comments:</h2>
             <label for="num-comments">Display number of comments:</label>
             <select name="num-comments" id="num-comments" onchange="setNumComments(this)">
                 <option value="1">1</option>
@@ -105,7 +122,7 @@
             <ul id="comments-container"></ul>
             <button onClick="deleteComments()">Delete all comments</button>
 
-            <p><strong>Leave your comment below:</strong></p>
+            <h3>Leave your comment below:</h3>
 
             <form action="/data" method="POST" id="comments-form">
 
@@ -123,7 +140,7 @@
             </div>
 
             <form method="POST" action="/nickname" id="nickname-form">
-            <p><strong>Set your nickname here:</strong></p>
+            <h3>Set your nickname here:</h3>
             <p>Your nickname will be displayed next to your comment instead of your email.</p>
             <input name="nickname" placeholder="Your nickname here" id="nickname-input" />
             <br/><br/>
