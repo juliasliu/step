@@ -47,6 +47,6 @@ public class ChartServlet extends HttpServlet {
         int currentVotes = colorVotes.containsKey(color) ? colorVotes.get(color) : 0;
         colorVotes.put(color, currentVotes + 1);
 
-        response.sendRedirect("/");
+        response.sendRedirect("/comments");
     }
 }

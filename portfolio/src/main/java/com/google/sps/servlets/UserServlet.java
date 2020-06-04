@@ -47,12 +47,12 @@ public class UserServlet extends HttpServlet {
 
 
     if (userService.isUserLoggedIn()) {
-        String urlToRedirectToAfterUserLogsOut = "/";
+        String urlToRedirectToAfterUserLogsOut = "/comments.html";
         String logoutUrl = userService.createLogoutURL(urlToRedirectToAfterUserLogsOut);
         UserInfo userInfo =  new UserInfo(true, logoutUrl);
         response.getWriter().println(new Gson().toJson(userInfo));
     } else {
-        String urlToRedirectToAfterUserLogsIn = "/";
+        String urlToRedirectToAfterUserLogsIn = "/comments.html";
         String loginUrl = userService.createLoginURL(urlToRedirectToAfterUserLogsIn);
         UserInfo userInfo =  new UserInfo(false, loginUrl);
         response.getWriter().println(new Gson().toJson(userInfo));

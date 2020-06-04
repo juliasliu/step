@@ -54,7 +54,7 @@ function drawChart() {
         };
 
         const chart = new google.visualization.ColumnChart(
-            document.getElementById('chart-div'));
+            document.getElementById('chart-div-comments'));
         chart.draw(data, options);
     })
 
@@ -358,6 +358,12 @@ function createListElement(comment) {
         emailElement.innerText = comment.email;
         liElement.appendChild(emailElement);
     }
+
+  const scoreElement = document.createElement("span");
+  scoreElement.classList.add("score")
+  // round the score to the nearest hundredth place
+  scoreElement.innerText = "Sentiment score: " + Math.round(comment.score * 100.0) / 100.0;
+  liElement.appendChild(scoreElement);
 
   return liElement;
 }
