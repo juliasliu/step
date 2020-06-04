@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>My Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTYkmfKWcCNvQQAGwztwAoU-wVS8kwIDo"></script>
+    <script src="script.js"></script>
+  </head>
+  <body onload="onloadHelper()">
+    <img class="background" />
+    <nav class="navbar header">
+        <ul class="navbar-left">
+            <li><a href="index.html">Home</a></li>
+        </ul>
+        <ul class="navbar-right">
+            <li><a href="about.html">About</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="comments.html">Comments</a></li>
+        </ul>
+    </nav>
+    <div class="content-container">
+        <div class="main transparent content">
+            <h1>Fun Stuff</h1>
+        </div>
+        <div class="flex content">
+            <div class="content-right">
+                <h2>Charts</h2>
+                <h3>Vote for your favorite colors</h3>
+                <form action="/charts" method="POST">
+                <select name="color">
+                    <option value="Red">Red</option>
+                    <option value="Orange">Orange</option>
+                    <option value="Yellow">Yellow</option>
+                    <option value="Green">Green</option>
+                    <option value="Blue">Blue</option>
+                    <option value="Violet">Violet</option>
+                </select>
+                <button>Submit</button>
+                </form>
+            </div>
+            <div class="content-left">
+                <div id="chart-div"></div>
+            </div>
+        </div>
+        <div class="transparent content">
+            <h2>Where's Waldo?</h2>
+            <h3>Try to drag the map with your cursor to find Waldo and zoom out if needed. Click on Waldo if you find him!</h3>
+            <p id="hot-or-cold">Drag the map to find Waldo.</p>
+            <div id="map"></div>
+        </div>
+        <div class="transparent content">
+            <h2>Comments:</h2>
+            <label for="num-comments">Display number of comments:</label>
+            <select name="num-comments" id="num-comments" onchange="setNumComments(this)">
+                <option value="1">1</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="0" selected>all</option>
+            </select>
+            <ul id="comments-container"></ul>
+            <button onClick="deleteComments()">Delete all comments</button>
+        </div>
+        <div class="content">
+            <h3>Leave your comment below:</h3>
+
+            <form action="/data" method="POST" id="comments-form">
+
+            <p id="nickname-greeting">Hello <span id="nickname"></span>!</p>
+            <p id="sad-nickname-greeting">Hello stranger! It appears you do not have a nickname. :(</p>
+            <p>What do you want to tell me?</p>
+            <textarea name="content" placeholder="Your comment here"></textarea>
+            <br/><br/>
+
+            <button>Submit</button>
+            </form>
+
+            <div id="login-message">
+                <p>Please login to publish a comment: <a href="" id="login-link"><button>Login</button></a></p>
+            </div>
+
+            <form method="POST" action="/nickname" id="nickname-form">
+            <h3>Set your nickname here:</h3>
+            <p>Your nickname will be displayed next to your comment instead of your email.</p>
+            <input name="nickname" placeholder="Your nickname here" id="nickname-input" />
+            <br/><br/>
+            <button>Submit</button>
+            </form>
+
+            <div id="logout-message">
+                <p>Feel free to logout anytime: <a href="" id="logout-link"><button>Logout</button></a></p>
+            </div>
+        </div>
+    </div>
+    <nav class="navbar footer">
+        <ul class="navbar-center">
+            <li><a href="https://www.linkedin.com/in/juliasliu/">LinkedIn</a></li>
+            <li><a href="https://github.com/juliasliu">Github</a></li>
+            <li><a href="http://julialiu.com/">Website</a></li>
+        </ul>
+    </nav>
+  </body>
+</html>

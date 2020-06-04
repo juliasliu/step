@@ -1,7 +1,85 @@
 html, body {
-    font-family: 'Calibri', sans-serif;
+    font-family: 'Roboto', sans-serif;
     height: 100%;
 }
+
+p, label {
+    font-weight: 300;
+}
+
+button, input, select, textarea {
+    padding: 10px 15px;
+    background: rgba(255, 255, 255, 0.5);
+    border: none;
+    transition: 0.5s;
+}
+
+button:hover {
+    background: rgba(255, 255, 255, 0.75);
+}
+
+input, select, textarea {
+    background: #fff;
+}
+
+/* NAVBAR */
+
+.navbar {
+    color: white;
+    text-transform: uppercase;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.navbar.header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+.navbar.footer {
+    position: relative;
+    margin-bottom: 50px;
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+}
+
+.navbar ul.navbar-left {
+    float: left;
+}
+
+.navbar ul.navbar-right {
+    float: right;
+    padding-inline-end: 40px;
+}
+
+.navbar ul.navbar-center {
+    justify-content: center;
+}
+
+.navbar ul li a {
+    padding: 20px 50px;
+    width: 100px;
+    text-align: center;
+    font-weight: 300;
+    transition: 0.5s;
+}
+
+.navbar ul li a:hover {
+    background: rgba(255, 255, 255, 0.25);
+    cursor: pointer;
+}
+
+.navbar ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+/* BACKGROUND */
 
 .background {
     position: fixed;
@@ -13,13 +91,15 @@ html, body {
     border-radius: 0;
     margin: 0;
     background-image: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.5)), 
-        url("images/wallpaper.png");
+        url("images/wallpaper.jpg");
     background-size: cover;
     object-fit: none;
 }
 
+/* CONTENT BLOCKS */
+
 .content-container {
-    position: absolute;
+    position: relative;
     top: 0;
     left: 0;
 }
@@ -34,7 +114,7 @@ html, body {
 }
 
 .content.main {
-    padding: 15% 50px;
+    padding: 10% 50px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -91,6 +171,7 @@ html, body {
 }
 
 /* MAP */
+
 #map {
     height: 500px;
 }
@@ -123,7 +204,7 @@ html, body {
 
 #comments-container li .nickname,
 #comments-container li .email {
-    color: lightslategray;
+    color: lightblue;
     font-style: italic;
     margin-left: 5px;
 }
