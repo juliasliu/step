@@ -22,6 +22,42 @@ function onloadHelper() {
     getComments(0);
     setupLogin();
     createMap();
+    createCharts();
+}
+
+/** Creates charts and adds it to the page. */
+function createCharts() {
+    // Load the Visualization API and the corechart package.
+    google.charts.load('current', {'packages':['corechart']});
+
+    // Set a callback to run when the Google Visualization API is loaded.
+    google.charts.setOnLoadCallback(drawChart);
+}
+
+/** Draws a pie chart */
+function drawChart() {
+
+    // Create the data table.
+    fetch('/charts').then(response => response.json()).then((colorVotes) => {
+        const data = new google.visualization.DataTable();
+        data.addColumn('string', 'Color');
+        data.addColumn('number', 'Votes');
+        data.addColumn({type: 'string', role: 'style'});
+        Object.keys(colorVotes).forEach((color) => {
+            data.addRow([color, colorVotes[color], color]);
+        });
+
+        const options = {
+        'title': 'Favorite Colors',
+        'width':600,
+        'height':500
+        };
+
+        const chart = new google.visualization.ColumnChart(
+            document.getElementById('chart-div'));
+        chart.draw(data, options);
+    })
+
 }
 
 /** Hide comments form by default; if user logged in, unhide the form. otherwise, display login link */
