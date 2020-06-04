@@ -10,147 +10,28 @@
   </head>
   <body onload="onloadHelper()">
     <img class="background" />
+    <nav class="navbar header">
+        <ul class="navbar-left">
+            <li><a href="index.html">Home</a></li>
+        </ul>
+        <ul class="navbar-right">
+            <li><a href="about.html">About</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="comments.html">Comments</a></li>
+        </ul>
+    </nav>
     <div class="content-container">
         <div class="main transparent content">
             <h1 class="title">Hello! Welcome to me!!</h1>
             <h2>My name is Julia Liu.</h2>
         </div>
-        <div class="flex content">
-        <div class="content-left">
-            <h2>A couple paragraphs about me:</h2>
-            <p>Hi!! I'm Julia and I'm your resident Bay Area tech trash bro. Just kidding.
-                But I did grow up primarily in Cupertino for more than half of my life 
-                so I've undoubtedly been influenced by the ever-changing technology trends born 
-                from the heart of the Silicon Valley and have used pretty much any consumer-facing tech product out there. 
-            </p>
-            <p>
-                I don't know if I'd call myself a code junkie (following my earlier reference to being a tech trash; I also think I'm just a professional copy-paster),
-                but I'm constantly learning more languages and tech stacks and challenging myself as well through the courses
-                I take at UC Berkeley. In high school, I built and maintained websites for some of the clubs I was in
-                and continued my passion for web design & dev in college, where I joined the course staff for a Web Design Decal
-                at Berkeley. During breaks, such as winter or summer, I try to lose myself in a few personal projects as well, 
-                as listed below.
-            </p>
-            <p>
-                I also love travelling and vlogging (check out my Youtube channel!), exploring beautiful places
-                and eating delish foods. I sometimes play video games in my free time and I also like urban dance. 
-                If I'm not doing any of the above, you'll probably see me drinking boba milk tea and/or working out,
-                but obviously not at the same time.
-            </p>
-        </div>
-        <div class="content-right">
-            <img src="/images/julia.jpg" class="profile-picture" />
-            <p class="caption">Here is a picture of me in front of some pretty roses back when I got sunshine on a regular basis.
-            </p>
-        </div>
-        </div>
-        <div class="content">
-            <h2>A list of projects I've worked on:</h2>
-            <ol>
-                <li>
-                    <p><strong>Kwizu</strong><br />
-                    <i>React, React Native, Ruby on Rails, Heroku (old host), AWS (new)</i><br />
-                    Kwizu is an app I started about 2 weeks ago that is based on an old app I created that used to 
-                    be called "Kindred," but I am building the React Native mobile app as well as the server code from scratch.
-                    If you've ever heard of Buzzfeed quizzes before, Kwizu is basically a better version of that where users
-                    can take fun personality and trivia quizzes, store their responses, and compare their results with friends.
-                    </p>
-                </li>
-                <li>
-                    <p><strong>Dreamemo</strong><br />
-                    <i>HTML, CSS, MEAN (JS), Ionic SDK, AWS</i><br />
-                    This was the first ever iOS and mobile app that I ever published. I released the first version of the app 
-                    on the App Store in high school and made just a few more iterations on it. I'm thinking of getting back to 
-                    revisiting and updating it to a newer version once I've released Kwizu. Dreamemo is a mobile app that doubles as 
-                    both a dream journal and personal motivation and meditation tool.</p>
-                </li>
-                <li>
-                    <p><strong>Verze</strong><br />
-                    <i>HTML, CSS, MEAN (JS), Ionic SDK, AWS</i><br />
-                    Shortly after I released Dreamemo, I poured my heart and soul into another mobile app, this time on a much 
-                    bigger scale. After over a year or working on it in between schoolwork, I released it at the beginning of my senior year, 
-                    and later also made a web version of it as well. Unfortunately, the code base is really hefty and hard to maintain, but in the future 
-                    I definitely want to go back and revise it. Verze is a foreign language-learning app that relies on interactive, multi-sensory cards with 
-                    fun exercises. Unlike other language apps, Verze focuses more on the user-creation side, where users can also help teach others languages 
-                    by generating their own cards, decks, and courses.</p>
-                </li>
-            </ol>
-        </div>
-        <div class="transparent content">
-            <h2>Links to my profiles:</h2>
-            <ul>
-                <li><a href="https://www.linkedin.com/in/juliasliu/">LinkedIn</a></li>
-                <li><a href="https://github.com/juliasliu">Github</a></li>
-            </ul>
-            <p><i>Alternatively, you can check out my actual portfolio website at <a href="http://julialiu.com/">www.julialiu.com</a></i>.</p>
-        </div>
-        <div class="flex content">
-            <div class="content-right">
-                <h2>Charts</h2>
-                <h3>Vote for your favorite colors</h3>
-                <form action="/charts" method="POST">
-                <select name="color">
-                    <option value="Red">Red</option>
-                    <option value="Orange">Orange</option>
-                    <option value="Yellow">Yellow</option>
-                    <option value="Green">Green</option>
-                    <option value="Blue">Blue</option>
-                    <option value="Violet">Violet</option>
-                </select>
-                <button>Submit</button>
-                </form>
-            </div>
-            <div class="content-left">
-                <div id="chart-div"></div>
-            </div>
-        </div>
-        <div class="transparent content">
-            <h2>Where's Waldo?</h2>
-            <h3>Try to drag the map with your cursor to find Waldo and zoom out if needed. Click on Waldo if you find him!</h3>
-            <p id="hot-or-cold">Drag the map to find Waldo.</p>
-            <div id="map"></div>
-        </div>
-        <div class="content">
-            <h2>Comments:</h2>
-            <label for="num-comments">Display number of comments:</label>
-            <select name="num-comments" id="num-comments" onchange="setNumComments(this)">
-                <option value="1">1</option>
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="0" selected>all</option>
-            </select>
-            <ul id="comments-container"></ul>
-            <button onClick="deleteComments()">Delete all comments</button>
-
-            <h3>Leave your comment below:</h3>
-
-            <form action="/data" method="POST" id="comments-form">
-
-            <p id="nickname-greeting">Hello <span id="nickname"></span>!</p>
-            <p id="sad-nickname-greeting">Hello stranger! It appears you do not have a nickname. :(</p>
-            <p>What do you want to tell me?</p>
-            <textarea name="content" placeholder="Your comment here"></textarea>
-            <br/><br/>
-
-            <input type="submit" />
-            </form>
-
-            <div id="login-message">
-                <p>Please login to publish a comment: <a href="" id="login-link"><button>Login</button></a></p>
-            </div>
-
-            <form method="POST" action="/nickname" id="nickname-form">
-            <h3>Set your nickname here:</h3>
-            <p>Your nickname will be displayed next to your comment instead of your email.</p>
-            <input name="nickname" placeholder="Your nickname here" id="nickname-input" />
-            <br/><br/>
-            <input type="submit" />
-            </form>
-
-            <div id="logout-message">
-                <p>Feel free to logout anytime: <a href="" id="logout-link"><button>Logout</button></a></p>
-            </div>
-        </div>
     </div>
+    <nav class="navbar footer">
+        <ul class="navbar-center">
+            <li><a href="https://www.linkedin.com/in/juliasliu/">LinkedIn</a></li>
+            <li><a href="https://github.com/juliasliu">Github</a></li>
+            <li><a href="http://julialiu.com/">Website</a></li>
+        </ul>
+    </nav>
   </body>
 </html>
