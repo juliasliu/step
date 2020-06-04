@@ -213,3 +213,8 @@ input, select, textarea {
 #comments-container li .score {
     float: right;
 }
+
+/* CHARTS */
+#chart-div-timeline {
+    width: 100%;
+}
