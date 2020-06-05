@@ -16,6 +16,7 @@ button, input, select, textarea {
 
 button:hover {
     background: rgba(255, 255, 255, 0.75);
+    cursor: pointer;
 }
 
 input, select, textarea {
@@ -148,11 +149,11 @@ input, select, textarea {
 }
 
 .content-left {
-    width: 66.666%
+    width: 50%
 }
 
 .content-right {
-    width: 33.333%;
+    width: 50%;
     text-align: center;
 }
 
@@ -207,4 +208,13 @@ input, select, textarea {
     color: lightblue;
     font-style: italic;
     margin-left: 5px;
+}
+
+#comments-container li .score {
+    float: right;
+}
+
+/* CHARTS */
+#chart-div-timeline {
+    width: 100%;
 }

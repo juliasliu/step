@@ -8,7 +8,7 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTYkmfKWcCNvQQAGwztwAoU-wVS8kwIDo"></script>
     <script src="script.js"></script>
   </head>
-  <body onload="onloadHelper()">
+  <body onload="onloadHelper('about')">
     <img class="background" />
     <nav class="navbar header">
         <ul class="navbar-left">
@@ -25,7 +25,7 @@
             <h1>About Me</h1>
         </div>
         <div class="flex content">
-            <div class="content-left">
+            <div class="content-left" style="width: 66.666%">
                 <h2>A couple paragraphs about me:</h2>
                 <p>Hi!! I'm Julia and I'm your resident Bay Area tech trash bro. Just kidding.
                     But I did grow up primarily in Cupertino for more than half of my life 
@@ -47,14 +47,16 @@
                     but obviously not at the same time.
                 </p>
             </div>
-            <div class="content-right">
+            <div class="content-right" style="width: 33.333%">
                 <img src="/images/julia.jpg" class="profile-picture" />
                 <p class="caption">Here is a picture of me in front of some pretty roses back when I got sunshine on a regular basis.
                 </p>
             </div>
         </div>
         <div class="transparent content">
-            <div id="chart-div"></div>
+            <h2>Timeline of schools I attended:</h2>
+            <p>I definitely fudged the dates for the early ones.</p>
+            <div id="chart-div-timeline"></div>
         </div>
     </div>
     <nav class="navbar footer">

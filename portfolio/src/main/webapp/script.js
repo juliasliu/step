@@ -16,48 +16,104 @@
 var mapCenter;
 var waldoPosition;
 var foundWaldo;
+var commentsList = [];
+
+// Load the Visualization API and the corechart package.
+google.charts.load('current', {'packages':['corechart', 'timeline']});
 
 /** Function is called when the document body loads */
-function onloadHelper() {
-    getComments(0);
-    setupLogin();
-    createMap();
-    createCharts();
+function onloadHelper(page) {
+    switch(page) {
+        case "home":
+            break;
+        case "about":
+            createCharts();
+            break;
+        case "projects":
+            createMap();
+            break;
+        case "comments":
+            getComments(0);
+            setupLogin();
+            break;
+        default:
+            // nothing
+    }
 }
 
 /** Creates charts and adds it to the page. */
 function createCharts() {
-    // Load the Visualization API and the corechart package.
-    google.charts.load('current', {'packages':['corechart']});
-
     // Set a callback to run when the Google Visualization API is loaded.
-    google.charts.setOnLoadCallback(drawChart);
+    google.charts.setOnLoadCallback(drawTimelineChart);
 }
 
-/** Draws a pie chart */
-function drawChart() {
+/** Draws the timeline chart */
+function drawTimelineChart() {
 
-    // Create the data table.
-    fetch('/charts').then(response => response.json()).then((colorVotes) => {
-        const data = new google.visualization.DataTable();
-        data.addColumn('string', 'Color');
-        data.addColumn('number', 'Votes');
-        data.addColumn({type: 'string', role: 'style'});
-        Object.keys(colorVotes).forEach((color) => {
-            data.addRow([color, colorVotes[color], color]);
-        });
+    const data = new google.visualization.DataTable();
+    data.addColumn({ type: 'string', id: 'School' });
+    data.addColumn({ type: 'string', id: 'Name' });
+    data.addColumn({ type: 'date', id: 'Start' });
+    data.addColumn({ type: 'date', id: 'End' });
+    data.addRows([
+        ['Elementary', 'Doyle Elementary School', new Date(2005, 8, 1), new Date(2008, 1, 4) ],
+        ['Elementary', 'Stone Ranch Elementary School',      new Date(2008, 1, 5),  new Date(2009, 2, 7) ],
+        ['Elementary', 'Garden Gate Elementary School',  new Date(2009, 2, 8),  new Date(2011, 6, 11) ],
+        ['Middle', 'Lawson Middle School',  new Date(2011, 8, 14),  new Date(2014, 6, 4) ],
+        ['High', 'Monta Vista High School',  new Date(2014, 8, 17),  new Date(2014, 9, 4) ],
+        ['High', 'Cupertino High School',  new Date(2014, 9, 5),  new Date(2018, 5, 31) ],
+        ['College', 'University of California, Berkeley',  new Date(2018, 8, 21),  new Date(2022, 5, 14) ]
+    ]);
 
-        const options = {
-        'title': 'Favorite Colors',
+    const options = {
+        'title': 'Timeline of schools I attended',
+        'height': 250,
+    };
+
+    const container = document.getElementById('chart-div-timeline');
+    const chart = new google.visualization.Timeline(container);
+    chart.draw(data, options);
+}
+
+/** Draws the comments sentiment score bar chart */
+function drawCommentsChart() {
+
+    // load list of comments into a map object
+    let commentVotes = new Map();
+    for (var i = 0; i < commentsList.length; i++) {
+        var score = Math.round(commentsList[i].score * 100.0) / 100.0
+        var currentVotes = commentVotes.has(score) ? commentVotes.get(score) : 0;
+        commentVotes.set(score, currentVotes + 1);
+    }
+
+    // create the data table
+    const data = new google.visualization.DataTable();
+    data.addColumn('number', 'Sentiment score');
+    data.addColumn('number', 'Frequency');
+    data.addColumn({type: 'string', role: 'style'});
+    commentVotes.forEach((frequency, score) => {    // (value, key)
+        data.addRow([score, frequency, getScoreColor(score)]);
+    });
+
+    const options = {
+        'title': 'Sentiment score distribution for comments',
         'width':600,
         'height':500
-        };
+    };
 
-        const chart = new google.visualization.ColumnChart(
-            document.getElementById('chart-div'));
-        chart.draw(data, options);
-    })
+    const container = document.getElementById('chart-div-comments');
+    const chart = new google.visualization.ColumnChart(container);
+    chart.draw(data, options);
+}
 
+/** Returns a color based on a sentiment score */
+function getScoreColor(score) {
+    if (score == 0)
+        return 'blue';
+    else if (score < 0)
+        return 'red';
+    else 
+        return 'green';
 }
 
 /** Hide comments form by default; if user logged in, unhide the form. otherwise, display login link */
@@ -305,7 +361,6 @@ function haversine_distance(pos1, pos2) {
  * Fetches JSON string from the server and adds it to HTML
  */
 function getComments(numComments) {
-    console.log(numComments);
     fetch("/data?numcomments=" + numComments).then(response => response.json()).then((comments) => {
         // stats is an object, not a string, so we have to
         // reference its fields to create HTML content
@@ -315,8 +370,12 @@ function getComments(numComments) {
         commentsListElement.innerHTML = "";
         for (var i = 0; i < comments.length; i++) {
             commentsListElement.appendChild(createListElement(comments[i]));
+            commentsList.push(comments[i]);
         }
         if (comments.length == 0) commentsListElement.innerHTML = "No comments posted yet.";
+
+        // Draws the comments bar chart
+        drawCommentsChart();
     });
 }
 
@@ -358,6 +417,12 @@ function createListElement(comment) {
         emailElement.innerText = comment.email;
         liElement.appendChild(emailElement);
     }
+
+  const scoreElement = document.createElement("span");
+  scoreElement.classList.add("score")
+  // round the score to the nearest hundredth place
+  scoreElement.innerText = "Sentiment score: " + Math.round(comment.score * 100.0) / 100.0;
+  liElement.appendChild(scoreElement);
 
   return liElement;
 }
