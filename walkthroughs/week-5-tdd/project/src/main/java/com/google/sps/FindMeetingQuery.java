@@ -16,7 +16,8 @@ package com.google.sps;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.Set;
 import java.util.List;
 import java.util.ArrayList;
@@ -24,27 +25,40 @@ import java.util.ArrayList;
 public final class FindMeetingQuery {
     public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
         Collection<String> attendees = request.getAttendees();
+        Collection<String> optionalAttendees = request.getOptionalAttendees();
         int duration = (int) request.getDuration();
 
-        Set<TimeRange> conflictTimes = new HashSet<TimeRange>();
+        Map<TimeRange, String> conflictTimes = new HashMap<TimeRange, String>();
 
         for (Event e : events) {                                        // find all unique conflicting time ranges from the events
             TimeRange when = e.getWhen();
             Set<String> eventAttendees = e.getAttendees();              // hashset of event attendees
             for (String a : attendees) {
                 if (eventAttendees.contains(a)) {                       // if the meeting attendee is part of this event
-                    conflictTimes.add(when);                            // add the event time range to the list of conflicting times
+                    conflictTimes.put(when, "Mandatory");               // add the event time range to the list of conflicting times
+                }
+            }
+            for (String o : optionalAttendees) {
+                if (eventAttendees.contains(o)) {
+                    conflictTimes.put(when, "Optional");                // value is false for optional attendees
                 }
             }
         }
 
-        // System.out.println("Here are the conflict time ranges: ");
-        // System.out.println(conflictTimes);
+        System.out.println("Here are the conflict time ranges: ");
+        System.out.println(conflictTimes);
+
+        // generate two conflict lists, one for all attendees and one for only mandatory attendees
+        List<TimeRange> conflictTimesList = new ArrayList<TimeRange>(conflictTimes.keySet());
+        conflictTimes.values().removeAll(Collections.singleton("Optional"));
+        List<TimeRange> conflictTimesListMandatory = new ArrayList<TimeRange>(conflictTimes.keySet());
+        
+        // order the conflict times by start time
+        Collections.sort(conflictTimesList, TimeRange.ORDER_BY_START);
+        Collections.sort(conflictTimesListMandatory, TimeRange.ORDER_BY_START);
 
         List<TimeRange> possibleTimes = new ArrayList<TimeRange>();
-        List<TimeRange> conflictTimesList = new ArrayList<TimeRange>(conflictTimes);
 
-        Collections.sort(conflictTimesList, TimeRange.ORDER_BY_START);  // order the conflict times by start time
         int startMinute = TimeRange.START_OF_DAY;
         for (TimeRange c : conflictTimesList) {                         // find all time ranges that do not conflict
             if (startMinute < c.start()) {                              // if the next start time does not overlap past the next conflict
@@ -66,13 +80,36 @@ public final class FindMeetingQuery {
             }
         }
 
+        // if no time ranges are available, then pick the times without optional attendees
+        if (possibleTimes.size() == 0 && conflictTimesListMandatory.size() != 0) {
+            possibleTimes.clear();
+
+            startMinute = TimeRange.START_OF_DAY;
+            for (TimeRange c : conflictTimesListMandatory) {
+                if (startMinute < c.start()) {
+                    TimeRange possibleTime = TimeRange.fromStartEnd(startMinute, c.start(), false);
+                    if (possibleTime.duration() >= duration) {
+                        possibleTimes.add(possibleTime);
+                    }
+                }
+                if (startMinute < c.end()) {
+                    startMinute = c.end();
+                }
+            }
+
+            if (startMinute < TimeRange.END_OF_DAY) {  
+                TimeRange possibleTime = TimeRange.fromStartEnd(startMinute, TimeRange.END_OF_DAY, true);
+                if (possibleTime.duration() >= duration) {
+                    possibleTimes.add(possibleTime);
+                }
+            }
+        }
+
         // sort possible times by start time
         Collections.sort(possibleTimes, TimeRange.ORDER_BY_START);
 
-        // System.out.println("Here are the possible time ranges: ");
-        // System.out.println(possibleTimes);
+        System.out.println("Here are the possible time ranges: ");
+        System.out.println(possibleTimes);
         return possibleTimes;
-
-        // throw new UnsupportedOperationException("TODO: Implement this method.");
     }
 }
