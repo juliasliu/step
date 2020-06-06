@@ -33,20 +33,15 @@ public final class FindMeetingQuery {
         for (Event e : events) {                                        // find all unique conflicting time ranges from the events
             TimeRange when = e.getWhen();
             Set<String> eventAttendees = e.getAttendees();              // hashset of event attendees
-            for (String a : attendees) {
-                if (eventAttendees.contains(a)) {                       // if the meeting attendee is part of this event
+            for (String a : eventAttendees) {
+                if (attendees.contains(a)) {                            // if the meeting attendee is part of this event
                     conflictTimes.put(when, "Mandatory");               // add the event time range to the list of conflicting times
                 }
-            }
-            for (String o : optionalAttendees) {
-                if (eventAttendees.contains(o)) {
-                    conflictTimes.put(when, "Optional");                // value is false for optional attendees
+                if (optionalAttendees.contains(a)) {
+                    conflictTimes.put(when, "Optional");                // value is "Optional" for optional attendees
                 }
             }
         }
-
-        System.out.println("Here are the conflict time ranges: ");
-        System.out.println(conflictTimes);
 
         // generate two conflict lists, one for all attendees and one for only mandatory attendees
         List<TimeRange> conflictTimesList = new ArrayList<TimeRange>(conflictTimes.keySet());
@@ -67,9 +62,7 @@ public final class FindMeetingQuery {
                     possibleTimes.add(possibleTime);                    // add the event time range to list of possible times
                 }
             }
-            if (startMinute < c.end()) {
-                startMinute = c.end();                                  // start the next time range at the end of the latest conflict
-            }
+            startMinute = Math.max(startMinute, c.end());               // start the next time range at the end of the latest conflict
         }
 
         // find the last time range after the last conflict of the day
@@ -92,9 +85,7 @@ public final class FindMeetingQuery {
                         possibleTimes.add(possibleTime);
                     }
                 }
-                if (startMinute < c.end()) {
-                    startMinute = c.end();
-                }
+                startMinute = Math.max(startMinute, c.end());
             }
 
             if (startMinute < TimeRange.END_OF_DAY) {  
@@ -107,9 +98,6 @@ public final class FindMeetingQuery {
 
         // sort possible times by start time
         Collections.sort(possibleTimes, TimeRange.ORDER_BY_START);
-
-        System.out.println("Here are the possible time ranges: ");
-        System.out.println(possibleTimes);
         return possibleTimes;
     }
 }
