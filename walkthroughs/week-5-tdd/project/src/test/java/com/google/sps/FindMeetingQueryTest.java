@@ -392,22 +392,20 @@ public final class FindMeetingQueryTest {
     // Have each person have different events. We should see two options because each person has
     // split the restricted times.
     //
-    // Optional:       |----A----||--B--||----A----|
-    //           |--C--|        |-----C------|
-    // Day     : |---------------------------------|
+    // Optional:       |----A----||-------A-------|
+    //           |--B--|      |----B----|
+    // Day     : |--------------------------------|
     // Options :
-    
+
     Collection<Event> events = Arrays.asList(
-        new Event("Event 1", TimeRange.fromStartDuration(TIME_0800AM, DURATION_60_MINUTES),
+        new Event("Event 1", TimeRange.fromStartDuration(TIME_0900AM, DURATION_2_HOUR),
             Arrays.asList(PERSON_A)),
-        new Event("Event 2", TimeRange.fromStartDuration(TIME_0900AM, DURATION_30_MINUTES),
+        new Event("Event 3", TimeRange.fromStartEnd(TIME_1100AM, TimeRange.END_OF_DAY, true),
+            Arrays.asList(PERSON_A)),
+        new Event("Event 4", TimeRange.fromStartEnd(TimeRange.START_OF_DAY, TIME_0900AM, false),
             Arrays.asList(PERSON_B)),
-        new Event("Event 3", TimeRange.fromStartEnd(TIME_0930AM, TimeRange.END_OF_DAY, true),
-            Arrays.asList(PERSON_A)),
-        new Event("Event 4", TimeRange.fromStartDuration(TimeRange.START_OF_DAY, DURATION_30_MINUTES),
-            Arrays.asList(PERSON_C)),
-        new Event("Event 5", TimeRange.fromStartEnd(TIME_1000AM, TimeRange.END_OF_DAY, true),
-            Arrays.asList(PERSON_C))
+        new Event("Event 5", TimeRange.fromStartDuration(TIME_1000AM, DURATION_2_HOUR),
+            Arrays.asList(PERSON_B))
     );
 
     MeetingRequest request =

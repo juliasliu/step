@@ -31,11 +31,11 @@ public final class FindMeetingQuery {
         for (Event e : events) {                                        // find all unique conflicting time ranges from the events
             TimeRange when = e.getWhen();
             Set<String> eventAttendees = e.getAttendees();              // hashset of event attendees
-                for (String a : attendees) {
-                    if (eventAttendees.contains(a)) {                   // if the meeting attendee is part of this event
-                        conflictTimes.add(when);                        // add the event time range to the list of conflicting times
-                    }
+            for (String a : attendees) {
+                if (eventAttendees.contains(a)) {                       // if the meeting attendee is part of this event
+                    conflictTimes.add(when);                            // add the event time range to the list of conflicting times
                 }
+            }
         }
 
         // System.out.println("Here are the conflict time ranges: ");
