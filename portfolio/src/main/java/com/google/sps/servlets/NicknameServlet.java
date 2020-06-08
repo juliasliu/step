@@ -44,7 +44,7 @@ public class NicknameServlet extends HttpServlet {
       String nickname = getUserNickname(userService.getCurrentUser().getUserId());
       response.getWriter().println(new Gson().toJson(nickname));
     } else {
-      response.sendRedirect("/");
+      response.sendRedirect("/comments.html");
     }
   }
 
@@ -52,7 +52,7 @@ public class NicknameServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     UserService userService = UserServiceFactory.getUserService();
     if (!userService.isUserLoggedIn()) {
-      response.sendRedirect("/");
+      response.sendRedirect("/comments.html");
       return;
     }
 
@@ -74,6 +74,7 @@ public class NicknameServlet extends HttpServlet {
     for (Entity entity : comments.asIterable()) {
         long commentId = entity.getKey().getId();
         String content = (String) entity.getProperty("content");
+        double score = (double) entity.getProperty("score");
         long timestamp = (long) entity.getProperty("timestamp");
 
         // update that comment with nickname
@@ -81,11 +82,12 @@ public class NicknameServlet extends HttpServlet {
         comment.setProperty("content", content);
         comment.setProperty("nickname", nickname);
         comment.setProperty("email", email);
+        comment.setProperty("score", score);
         comment.setProperty("timestamp", timestamp);
         datastore.put(comment);
     }
 
-    response.sendRedirect("/");
+    response.sendRedirect("/comments.html");
   }
 
   /**
