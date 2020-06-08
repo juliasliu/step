@@ -33,13 +33,11 @@ public final class FindMeetingQuery {
         for (Event e : events) {                                        // find all unique conflicting time ranges from the events
             TimeRange when = e.getWhen();
             Set<String> eventAttendees = e.getAttendees();              // hashset of event attendees
-            for (String a : eventAttendees) {
-                if (attendees.contains(a)) {                            // if the meeting attendee is part of this event
-                    conflictTimes.put(when, "Mandatory");               // add the event time range to the list of conflicting times
-                }
-                if (optionalAttendees.contains(a)) {
-                    conflictTimes.put(when, "Optional");                // value is "Optional" for optional attendees
-                }
+            if (!Collections.disjoint(eventAttendees, attendees)) {     // if the meeting attendee is part of this event
+                conflictTimes.put(when, "Mandatory");                   // add the event time range to the list of conflicting times
+            }
+            if (!Collections.disjoint(eventAttendees, optionalAttendees)) {
+                conflictTimes.put(when, "Optional");                    // value is "Optional" for optional attendees
             }
         }
 
@@ -52,6 +50,19 @@ public final class FindMeetingQuery {
         Collections.sort(conflictTimesList, TimeRange.ORDER_BY_START);
         Collections.sort(conflictTimesListMandatory, TimeRange.ORDER_BY_START);
 
+        List<TimeRange> possibleTimes = timesGivenConflicts(conflictTimesList, duration);
+
+        // if no time ranges are available, then pick the times without optional attendees
+        if (possibleTimes.size() == 0 && conflictTimesListMandatory.size() != 0) {
+            possibleTimes = timesGivenConflicts(conflictTimesListMandatory, duration);
+        }
+
+        // sort possible times by start time
+        Collections.sort(possibleTimes, TimeRange.ORDER_BY_START);
+        return possibleTimes;
+    }
+
+    public List<TimeRange> timesGivenConflicts(List<TimeRange> conflictTimesList, int duration) {
         List<TimeRange> possibleTimes = new ArrayList<TimeRange>();
 
         int startMinute = TimeRange.START_OF_DAY;
@@ -65,39 +76,13 @@ public final class FindMeetingQuery {
             startMinute = Math.max(startMinute, c.end());               // start the next time range at the end of the latest conflict
         }
 
-        // find the last time range after the last conflict of the day
-        if (startMinute < TimeRange.END_OF_DAY) {  
+        if (startMinute < TimeRange.END_OF_DAY) {                       // find the last time range after the last conflict of the day
             TimeRange possibleTime = TimeRange.fromStartEnd(startMinute, TimeRange.END_OF_DAY, true);
             if (possibleTime.duration() >= duration) {
                 possibleTimes.add(possibleTime);
             }
         }
 
-        // if no time ranges are available, then pick the times without optional attendees
-        if (possibleTimes.size() == 0 && conflictTimesListMandatory.size() != 0) {
-            possibleTimes.clear();
-
-            startMinute = TimeRange.START_OF_DAY;
-            for (TimeRange c : conflictTimesListMandatory) {
-                if (startMinute < c.start()) {
-                    TimeRange possibleTime = TimeRange.fromStartEnd(startMinute, c.start(), false);
-                    if (possibleTime.duration() >= duration) {
-                        possibleTimes.add(possibleTime);
-                    }
-                }
-                startMinute = Math.max(startMinute, c.end());
-            }
-
-            if (startMinute < TimeRange.END_OF_DAY) {  
-                TimeRange possibleTime = TimeRange.fromStartEnd(startMinute, TimeRange.END_OF_DAY, true);
-                if (possibleTime.duration() >= duration) {
-                    possibleTimes.add(possibleTime);
-                }
-            }
-        }
-
-        // sort possible times by start time
-        Collections.sort(possibleTimes, TimeRange.ORDER_BY_START);
         return possibleTimes;
     }
 }
