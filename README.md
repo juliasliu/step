@@ -15,4 +15,4 @@ Code for the query() function is located in `step/walkthroughs/week-5-tdd/projec
 
 JUnit tests are located under the `step/walkthroughs/week-5-tdd/project/src/test/java/com/google/sps/FindMeetingQueryTest.java`.
 
-To run the tests, `cd` into the `projects` directory and `mvn test` to run the JUnit tests.
+To run the tests, `cd` into the `project` directory and `mvn test` to run the JUnit tests.
