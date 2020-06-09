@@ -15,9 +15,74 @@
 package com.google.sps;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Set;
+import java.util.List;
+import java.util.ArrayList;
 
 public final class FindMeetingQuery {
-  public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
-    throw new UnsupportedOperationException("TODO: Implement this method.");
-  }
+    public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
+        Collection<String> attendees = request.getAttendees();
+        Collection<String> optionalAttendees = request.getOptionalAttendees();
+        int duration = (int) request.getDuration();
+
+        Map<TimeRange, String> conflictTimes = new HashMap<TimeRange, String>();
+
+        for (Event e : events) {                                        // find all unique conflicting time ranges from the events
+            TimeRange when = e.getWhen();
+            Set<String> eventAttendees = e.getAttendees();              // hashset of event attendees
+            if (!Collections.disjoint(eventAttendees, attendees)) {     // if the meeting attendee is part of this event
+                conflictTimes.put(when, "Mandatory");                   // add the event time range to the list of conflicting times
+            }
+            if (!Collections.disjoint(eventAttendees, optionalAttendees)) {
+                conflictTimes.put(when, "Optional");                    // value is "Optional" for optional attendees
+            }
+        }
+
+        // generate two conflict lists, one for all attendees and one for only mandatory attendees
+        List<TimeRange> conflictTimesList = new ArrayList<TimeRange>(conflictTimes.keySet());
+        conflictTimes.values().removeAll(Collections.singleton("Optional"));
+        List<TimeRange> conflictTimesListMandatory = new ArrayList<TimeRange>(conflictTimes.keySet());
+        
+        // order the conflict times by start time
+        Collections.sort(conflictTimesList, TimeRange.ORDER_BY_START);
+        Collections.sort(conflictTimesListMandatory, TimeRange.ORDER_BY_START);
+
+        List<TimeRange> possibleTimes = timesGivenConflicts(conflictTimesList, duration);
+
+        // if no time ranges are available, then pick the times without optional attendees
+        if (possibleTimes.size() == 0 && conflictTimesListMandatory.size() != 0) {
+            possibleTimes = timesGivenConflicts(conflictTimesListMandatory, duration);
+        }
+
+        // sort possible times by start time
+        Collections.sort(possibleTimes, TimeRange.ORDER_BY_START);
+        return possibleTimes;
+    }
+
+    public List<TimeRange> timesGivenConflicts(List<TimeRange> conflictTimesList, int duration) {
+        List<TimeRange> possibleTimes = new ArrayList<TimeRange>();
+
+        int startMinute = TimeRange.START_OF_DAY;
+        for (TimeRange c : conflictTimesList) {                         // find all time ranges that do not conflict
+            if (startMinute < c.start()) {                              // if the next start time does not overlap past the next conflict
+                TimeRange possibleTime = TimeRange.fromStartEnd(startMinute, c.start(), false);
+                if (possibleTime.duration() >= duration) {              // if the possible time range has sufficient duration
+                    possibleTimes.add(possibleTime);                    // add the event time range to list of possible times
+                }
+            }
+            startMinute = Math.max(startMinute, c.end());               // start the next time range at the end of the latest conflict
+        }
+
+        if (startMinute < TimeRange.END_OF_DAY) {                       // find the last time range after the last conflict of the day
+            TimeRange possibleTime = TimeRange.fromStartEnd(startMinute, TimeRange.END_OF_DAY, true);
+            if (possibleTime.duration() >= duration) {
+                possibleTimes.add(possibleTime);
+            }
+        }
+
+        return possibleTimes;
+    }
 }
